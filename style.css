@@ -1,0 +1,320 @@
+:root {
+    --cor-fundo: #FFDFDF;
+    --cor-envelope-corpo: #FFCDC9;
+    --cor-carta-fundo: #FEEAC9;
+    --cor-detalhe-vermelho: #f53022;
+    --cor-texto: #f53022;
+    --cor-envelope-frente: #FDACAC;
+    --cor-envelope-lado: #FD7979;
+    --cor-coracao: #ff4d6d;
+    --cor-sombra: rgba(0, 0, 0, 0.3);
+    --cor-fundo-coracoes: #ffb3c1;
+    --cor-overlay-retro: rgba(240, 230, 210, 0.2);
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    font-family: "Brush Script MT", cursive;
+    background-color: var(--cor-fundo);
+    overflow: hidden;
+}
+
+/* Estrutura principal */
+.wrapper{
+    position: relative;
+    width: 300px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cor-envelope-corpo);
+    z-index: 0;
+    cursor: pointer;
+    animation: float 3s ease-in-out infinite;
+}
+
+.letter{
+    position: absolute;
+    top: 0;
+    width: 80%;
+    height: 80%;
+    background-color: var(--cor-carta-fundo);
+    border-radius: 15px;
+    z-index: 2;
+    transition: 0.5s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.letter::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'%3E%3Cpath d='M130,12 C100,2 60,22 5,12 L5,142 C0,172 20,202 50,192 C80,182 130,202 150,192' fill='none' stroke='%23f53022' stroke-width='1.5' opacity='0.8'/%3E%3Cpath d='M170,12 C200,2 260,22 295,12 L295,142 C305,152 285,192 265,197 C230,202 170,182 150,192' fill='none' stroke='%23f53022' stroke-width='1.5' opacity='0.8'/%3E%3Cpath d='M130,17 C105,7 65,27 10,17 L10,137 C5,167 15,197 45,187 C75,177 125,197 145,187' fill='none' stroke='%23f53022' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M170,17 C205,7 265,27 290,17 L290,137 C300,157 280,187 260,192 C225,197 165,177 145,187' fill='none' stroke='%23f53022' stroke-width='1' opacity='0.4'/%3E%3Cg transform='translate(150, 12)' fill='none' stroke='%23f53022' stroke-width='1.8'%3E%3Cpath d='M0,0 C-15,-15 -30,-5 -5,2 M0,0 C15,-15 30,-5 5,2'/%3E%3Cpath d='M-2,2 C-5,10 -15,15 -12,20 M2,2 C5,10 15,15 12,20'/%3E%3Ccircle cx='0' cy='0' r='2.5' fill='%23f53022' stroke='none'/%3E%3C/g%3E%3C/svg%3E");
+    background-position: center;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.letter p{
+    text-align: center;
+    font-size: 16px;
+    color: var(--cor-texto);
+    line-height: 1.4;
+    font-family: "TAN - PEARL", serif;
+    background-color: rgba(253, 172, 172, 0.3);
+    padding: 20px;
+    border-radius: 10px;
+    width: 85%;
+    display: block;
+    margin: auto;
+}
+
+.envelope{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-top: 100px solid transparent;
+    border-left: 150px solid var(--cor-envelope-frente);
+    border-right: 150px solid var(--cor-envelope-lado);
+    border-bottom: 100px solid var(--cor-envelope-frente);
+    z-index: 3;
+}
+
+.lid{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-right: 150px solid transparent;
+    border-bottom: 100px solid transparent;
+    border-left: 150px solid transparent;
+    transform-origin: top;
+    transition: transform 0.25s linear;
+}
+
+/* Parte de cima da carta */
+.lid.one{
+    border-top: 100px solid var(--cor-envelope-corpo);
+    transform: rotateX(0deg);
+    z-index:3;
+    transition-delay: 0.75s;
+}
+
+/* Parte de baixo da carta */
+.lid.two{
+    border-top: 100px solid var(--cor-envelope-corpo);
+    transform: rotateX(90deg);
+    z-index:1;
+    transition-delay: 0.5s;
+}
+
+/* Abrindo a carta */
+.wrapper:hover .lid.one,
+.wrapper.active .lid.one{
+    transform: rotateX(90deg);
+    transition-delay: 0s;
+}
+
+/* Fechando a carta */
+.wrapper:hover .lid.two,
+.wrapper.active .lid.two{
+    transform: rotateX(180deg);
+    transition-delay: 0.5s;
+}
+
+/* Movendo a carta para cima */
+.wrapper:hover .letter,
+.wrapper.active .letter{
+    transform: translateY(-80px);
+    transition-delay: 0.5s;
+}
+
+.wrapper:hover .letter {
+    z-index: 4;
+}
+
+.wrapper.active .envelope {
+    z-index: 5;
+}
+
+.wrapper.active .letter {
+    z-index: 2; 
+}
+
+/* Pequenos corações flutuantes */
+.hearts {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.h-one, .h-two, .h-three, .h-four, .h-five {
+    background-color: var(--cor-coracao);
+    display: inline-block;
+    height: 10px;
+    position: absolute;
+    transform: rotate(-45deg);
+    width: 10px;
+    top: 100px;
+    opacity: 0;
+}
+
+.h-one:before, .h-one:after,
+.h-two:before, .h-two:after,
+.h-three:before, .h-three:after,
+.h-four:before, .h-four:after,
+.h-five:before, .h-five:after {
+    content: "";
+    background-color: inherit;
+    border-radius: 50%;
+    height: 10px;
+    position: absolute;
+    width: 10px;
+}
+
+.h-one:before, .h-two:before, .h-three:before, .h-four:before, .h-five:before {
+    top: -5px;
+    left: 0;
+}
+
+.h-one:after, .h-two:after, .h-three:after, .h-four:after, .h-five:after {
+    left: 5px;
+    top: 0;
+}
+
+.wrapper:hover .h-one { left: 20%; animation: heartFly 1.5s ease-out infinite; animation-delay: 1s; }
+.wrapper:hover .h-two { left: 40%; animation: heartFly 2.1s ease-out infinite; animation-delay: 1.2s; }
+.wrapper:hover .h-three { left: 55%; animation: heartFly 1.8s ease-out infinite; animation-delay: 1s; }
+.wrapper:hover .h-four { left: 75%; animation: heartFly 2.4s ease-out infinite; animation-delay: 1.3s; }
+.wrapper:hover .h-five { left: 90%; animation: heartFly 1.6s ease-out infinite; animation-delay: 1.1s; }
+
+@keyframes heartFly {
+    0% {
+        transform: translateY(0) rotate(-45deg) scale(0.3);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-200px) rotate(-45deg) scale(1.3);
+        opacity: 0;
+    }
+}
+
+.shadow {
+  position: absolute;
+  width: 330px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: var(--cor-sombra);
+  top: 210px;
+  left: -15px;
+  animation: scale 3s linear infinite;
+  z-index: -1;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes scale {
+  0%, 100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scaleX(0.7);
+    opacity: 0.5;
+  }
+}
+.bg-hearts {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.bg-heart {
+    position: absolute;
+    color: var(--cor-fundo-coracoes);
+    opacity: 0.3;
+    user-select: none;
+    animation: floatBackground 10s linear infinite;
+}
+
+@keyframes floatBackground {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.3;
+    }
+    90% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Filtro retro desbotado */
+.retro-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, var(--cor-overlay-retro) 100%);
+    backdrop-filter: sepia(0.4) contrast(0.9) brightness(1.05) saturate(0.8);
+    mix-blend-mode: soft-light;
+}
+
+.retro-overlay::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.05;
+    pointer-events: none;
+}
